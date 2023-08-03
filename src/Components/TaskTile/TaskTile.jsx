@@ -13,8 +13,7 @@ const TaskTile = ({
   id,
   status,
   handleDelete,
-  setRefreshTrigger,
-  refreshTrigger,
+  refetchTask
 }) => {
   const [editable, setEditable] = useState(false);
   const [Heading, setHeading] = useState(heading);
@@ -86,7 +85,7 @@ const TaskTile = ({
       const result = await response.json();
       if (response.ok) {
         success('Task Updated')
-        setRefreshTrigger(!refreshTrigger);
+        refetchTask();
       } else {
         errorMessage('something went wrong, Try again later')
       }
@@ -138,16 +137,16 @@ const TaskTile = ({
           bordered={false}
           placeholder="Select a category"
           size="large"
-          showSearch
           className="form-select mb-3"
           onChange={(value) => {
             setTaskStatus(value);
+            console.log(value)
             handleSaveButtonClick();
           }}
-          value={status}
+          value={taskStatus}
         >
           {arr?.map((item, index) => (
-            <Option key={index} value={item}>
+            <Option key={index} value={item}  disabled={editable}>
               {item}
             </Option>
           ))}

@@ -72,7 +72,10 @@ const Dashboard = () => {
   useEffect(() => {
     fetchAllTasks();
   }, [open,changeTriggered]);
-
+  
+  const refetchTasks = () => {
+    fetchAllTasks();
+  };
   return (
     <Layout>
       <div className="dasboard-main">
@@ -92,8 +95,7 @@ const Dashboard = () => {
               key={index}
               id={item?._id || ""}
               handleDelete={handleTaskdelete}
-              setRefreshTrigger={setChangeTriggered}
-              refreshTrigger={changeTriggered}
+              refetchTask={refetchTasks}
 
             />
           ))}
