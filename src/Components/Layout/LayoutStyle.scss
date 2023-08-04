@@ -1,23 +1,25 @@
 .hamburger {
-  display: flex;
-  position: absolute;
+  z-index: 1000;
+  position: relative;
 }
 
 .hamburger-active {
-  display: flex;
   position: absolute;
   right: 1rem;
   top: 1rem;
-  z-index: 10000;
+  z-index: 1000;
   background-color: white;
   border-radius: 100%;
-
 }
 
-.layout{
+.layout {
+  position: relative;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
+  display: flex;
 }
 
-.content{
+.content {
   overflow: auto;
 }

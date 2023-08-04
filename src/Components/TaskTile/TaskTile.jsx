@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { Button, Popover, Checkbox, Select, message, Badge } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
@@ -11,14 +11,14 @@ const TaskTile = ({
   description,
   date,
   id,
-  status,
+  currentStatus,
   handleDelete,
   refetchTask,
 }) => {
   const [editable, setEditable] = useState(false);
   const [Heading, setHeading] = useState(heading);
   const [Description, setDescription] = useState(description);
-  const [taskStatus, setTaskStatus] = useState(status);
+  const [taskStatus, setTaskStatus] = useState();
   const [messageApi, contextHolder] = message.useMessage();
 
   const success = (message) => {
@@ -70,6 +70,39 @@ const TaskTile = ({
       status: taskStatus,
     };
 
+    console.log(objData);
+    try {
+      const response = await fetch(
+        `https://${process.env.REACT_APP_HOST_URI}/api/Task/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(objData),
+        }
+      );
+      const result = await response.json();
+      if (response.ok) {
+        success("Task Updated");
+        console.log(result);
+        setEditable(false);
+        refetchTask();
+      } else {
+        errorMessage("something went wrong, Try again later");
+      }
+    } catch (error) {
+      errorMessage("something went wrong, Try again later");
+      console.log(error);
+    }
+  };
+
+
+  const handleStatusUpdate = async (data) => {
+    const objData = {
+      status: data,
+    };
+
     try {
       const response = await fetch(
         `https://${process.env.REACT_APP_HOST_URI}/api/Task/${id}`,
@@ -92,27 +125,27 @@ const TaskTile = ({
       errorMessage("something went wrong, Try again later");
       console.log(error);
     }
-
-    setEditable(false);
   };
 
   const arr = ["Pending", "Ongoing", "Finished"];
+
   function BadgeColor() {
     switch (true) {
-      case status === "Pending":
+      case currentStatus === "Pending":
         return "red";
-      case status === "Ongoing":
+      case currentStatus === "Ongoing":
         return "cyan";
-      case status === "Finished":
+      case currentStatus === "Finished":
         return "green";
       default:
         return "red";
     }
   }
+
   return (
     <div className="tile-main">
       <Badge.Ribbon
-        text={status}
+        text={currentStatus}
         color={BadgeColor()}
         placement="start"
         style={{ left: "-25px", top: "-10px" }}
@@ -161,11 +194,8 @@ const TaskTile = ({
             placeholder="Select a category"
             size="large"
             className="form-select mb-3"
-            onChange={(value) => {
-              setTaskStatus(value);
-              handleSaveButtonClick();
-            }}
-            value={taskStatus}
+            onChange={(value) => handleStatusUpdate(value)}
+            value={currentStatus}
           >
             {arr?.map((item, index) => (
               <Option key={index} value={item} disabled={editable}>

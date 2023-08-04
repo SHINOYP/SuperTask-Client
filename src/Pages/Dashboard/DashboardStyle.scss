@@ -54,14 +54,15 @@
     }
   
     h1 {
-      margin-right: 2rem;
+      margin-right: 5rem;
   
       @media (max-width: 1200px) {
         margin-left: 5vw;
+        margin-right: 2rem;
       }
   
       @media (max-width: 900px) {
-        margin-left: 12vw;
+        margin-left: 3vw;
       }
     }
   }

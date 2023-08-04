@@ -86,21 +86,21 @@ const Dashboard = () => {
         <Layout>
           <div className="dasboard-main">
             {contextHolder}
-            <CreateTaskForm open={open} setOpen={setOpen} />
+            {/* <CreateTaskForm open={open} setOpen={setOpen} />
             <div className="dasboard-head">
               <h1>Tasks</h1>{" "}
               <div className="dasboard-create">
                 <h4>create Task</h4>{" "}
                 <MdOutlineCreateNewFolder onClick={showModal} size={30} />
               </div>
-            </div>
+            </div> */}
             <div className="dashboard-tiles">
               {tasks?.map((item, index) => (
                 <TaskTile
                   heading={item?.title}
                   description={item?.description}
                   date={item?.createdAt}
-                  status={item?.status}
+                  currentStatus={item?.status}
                   key={index}
                   id={item?._id || ""}
                   handleDelete={handleTaskdelete}

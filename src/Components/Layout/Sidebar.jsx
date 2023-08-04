@@ -1,20 +1,13 @@
 import React from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import Logo from "../../../Assets/Icons/logo.svg";
+import Logo from "./../../Assets/Icons/logo.svg";
 import { HiOutlineHome } from "react-icons/hi";
 import { BsGraphUp } from "react-icons/bs";
 import { BsFiles } from "react-icons/bs";
 import { FiGrid } from "react-icons/fi";
-import { CgMenuRound, CgClose } from "react-icons/cg";
-import "../LayoutStyle.scss";
+import "./LayoutStyle.scss";
 
-const Sidebars = () => {
-  const [toggled, setToggled] = React.useState(false);
-  const [broken, setBroken] = React.useState(
-    window.matchMedia("(max-width: 1100px)").matches
-  );
-  
-  
+const Sidebars = ({ setBroken, setToggled, toggled }) => {
   return (
     <div style={{ display: "flex", height: "100%", minHeight: "400px" }}>
       <Sidebar
@@ -48,24 +41,6 @@ const Sidebars = () => {
           <MenuItem icon={<FiGrid />}>More Options</MenuItem>
         </Menu>
       </Sidebar>
-      
-        <div>
-          {broken &&
-            (!toggled ? (
-              <CgMenuRound
-                className="hamburger"
-                onClick={() => setToggled(!toggled)}
-                size={60}
-              />
-            ) : (
-              <CgClose
-                className="hamburger-active"
-                onClick={() => setToggled(!toggled)}
-                size={40}
-              />
-            ))}
-        </div>
-      
     </div>
   );
 };
