@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./CTFormStyle.sass";
 import { Button, Modal, Form, Input, message, Space } from "antd";
-
+import { useFormUpdate } from "../../Context/formContext";
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -22,6 +22,7 @@ const validateMessages = {
 const CreateTaskForm = ({ open, setOpen }) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const { form, setForm } = useFormUpdate();
 
   const success = (message) => {
     messageApi.open({
@@ -32,7 +33,7 @@ const CreateTaskForm = ({ open, setOpen }) => {
 
   const errorMessage = (message) => {
     messageApi.open({
-      type: 'error',
+      type: "error",
       content: message,
     });
   };
@@ -42,7 +43,7 @@ const CreateTaskForm = ({ open, setOpen }) => {
   const onFinish = async (values) => {
     try {
       const response = await fetch(
-       `https://${process.env.REACT_APP_HOST_URI}/api/Task/create-task`,
+        `https://${process.env.REACT_APP_HOST_URI}/api/Task/create-task`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -52,14 +53,15 @@ const CreateTaskForm = ({ open, setOpen }) => {
       const json = await response.json();
       if (response.ok) {
         success("New Task Added");
+        setForm(!form);
         setOpen(false);
         setConfirmLoading(false);
         formRef.current?.resetFields();
       } else {
-        errorMessage('something went wrong, Try again later')
+        errorMessage("something went wrong, Try again later");
       }
     } catch (error) {
-      errorMessage('something went wrong, Try again later')
+      errorMessage("something went wrong, Try again later");
       console.log(error);
     }
   };

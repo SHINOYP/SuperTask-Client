@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Layout } from "../../Components/Layout/Layout";
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { message  } from "antd";
+import { useFormUpdate } from "../../Context/formContext"
 import TaskTile from "../../Components/TaskTile/TaskTile";
 import CreateTaskForm from "../../Components/CreateTaskForm/CreateTaskForm";
 import FadeLoader from "react-spinners/FadeLoader";
@@ -14,7 +15,8 @@ const Dashboard = () => {
   const [changeTriggered, setChangeTriggered] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [loading,setLoading]=useState(false)
-  
+  const {form,setForm}=useFormUpdate()
+
   const success = (message) => {
     messageApi.open({
       type: "success",
@@ -75,7 +77,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchAllTasks();
-  }, [open,changeTriggered]);
+  }, [open,changeTriggered,form]);
   
   const refetchTasks = () => {
     fetchAllTasks();
@@ -86,14 +88,6 @@ const Dashboard = () => {
         <Layout>
           <div className="dasboard-main">
             {contextHolder}
-            {/* <CreateTaskForm open={open} setOpen={setOpen} />
-            <div className="dasboard-head">
-              <h1>Tasks</h1>{" "}
-              <div className="dasboard-create">
-                <h4>create Task</h4>{" "}
-                <MdOutlineCreateNewFolder onClick={showModal} size={30} />
-              </div>
-            </div> */}
             <div className="dashboard-tiles">
               {tasks?.map((item, index) => (
                 <TaskTile

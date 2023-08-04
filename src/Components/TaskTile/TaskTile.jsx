@@ -97,7 +97,6 @@ const TaskTile = ({
     }
   };
 
-
   const handleStatusUpdate = async (data) => {
     const objData = {
       status: data,
