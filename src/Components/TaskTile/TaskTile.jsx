@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
-import { Button, Popover, Checkbox, Select,message } from "antd";
+import { Button, Popover, Checkbox, Select, message, Badge } from "antd";
 import { CiMenuKebab } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
-import "./TaskTile.sass";
+import "./TaskTile.scss";
 const { Option } = Select;
 
 const TaskTile = ({
@@ -13,7 +13,7 @@ const TaskTile = ({
   id,
   status,
   handleDelete,
-  refetchTask
+  refetchTask,
 }) => {
   const [editable, setEditable] = useState(false);
   const [Heading, setHeading] = useState(heading);
@@ -30,14 +30,11 @@ const TaskTile = ({
 
   const errorMessage = (message) => {
     messageApi.open({
-      type: 'error',
+      type: "error",
       content: message,
     });
   };
 
-  const onChange = (e) => {
-    console.log(`checked = ${e.target.checked}`);
-  };
 
   const createdAtLocal = new Date(date).toLocaleString();
 
@@ -73,24 +70,27 @@ const TaskTile = ({
       description: Description,
       status: taskStatus,
     };
-   
+
     try {
-      const response = await fetch(`https://${process.env.REACT_APP_HOST_URI}/api/Task/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(objData),
-      });
+      const response = await fetch(
+        `https://${process.env.REACT_APP_HOST_URI}/api/Task/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(objData),
+        }
+      );
       const result = await response.json();
       if (response.ok) {
-        success('Task Updated')
+        success("Task Updated");
         refetchTask();
       } else {
-        errorMessage('something went wrong, Try again later')
+        errorMessage("something went wrong, Try again later");
       }
     } catch (error) {
-      errorMessage('something went wrong, Try again later')
+      errorMessage("something went wrong, Try again later");
       console.log(error);
     }
 
@@ -98,60 +98,85 @@ const TaskTile = ({
   };
 
   const arr = ["Pending", "Ongoing", "Finished"];
-
+  function BadgeColor() {
+    switch (true) {
+      case status === "Pending":
+        return "red";
+      case status === "Ongoing":
+        return "cyan";
+      case status === "Finished":
+        return "green";
+      default:
+        return "red";
+    }
+  }
   return (
     <div className="tile-main">
-      {contextHolder}
-      <div className="tile-text">
-        <Popover
-          placement="rightTop"
-          title={text}
-          content={content}
-          trigger="click"
-        >
-          <CiMenuKebab size={20} className="delete-icon" />
-        </Popover>
-        <Checkbox className="checkbox" onChange={onChange}></Checkbox>
-        <div>
-          {editable ? (
-            <input type="text" value={Heading} onChange={handleHeadingChange} />
-          ) : (
-            <h1>{heading}</h1>
-          )}
-          {editable ? (
-            <textarea value={Description} onChange={handleDescriptionChange} />
-          ) : (
-            <p>{description}</p>
-          )}
-        </div>
-      </div>
-      <div className="tile-toggle">
-        <small>{createdAtLocal}</small>
-        {editable ? (
-          <button onClick={handleSaveButtonClick}>Save</button>
-        ) : (
-          <AiOutlineEdit onClick={handleEditButtonClick}>Edit</AiOutlineEdit>
-        )}
+      <Badge.Ribbon
+        text={status}
+        color={BadgeColor()}
+        placement="start"
+        style={{left:'-25px',top:'-10px'}}
+      >
+        {contextHolder}
 
-        <Select
-          bordered={false}
-          placeholder="Select a category"
-          size="large"
-          className="form-select mb-3"
-          onChange={(value) => {
-            setTaskStatus(value);
-            console.log(value)
-            handleSaveButtonClick();
-          }}
-          value={taskStatus}
-        >
-          {arr?.map((item, index) => (
-            <Option key={index} value={item}  disabled={editable}>
-              {item}
-            </Option>
-          ))}
-        </Select>
-      </div>
+        <div className="tile-text">
+          <Popover
+            placement="rightTop"
+            title={text}
+            content={content}
+            trigger="click"
+          >
+            <CiMenuKebab size={20} className="delete-icon" />
+          </Popover>
+          <div >
+            {editable ? (
+              <input
+                type="text"
+                value={Heading}
+                onChange={handleHeadingChange}
+              />
+            ) : (
+              <h1>{heading}</h1>
+            )}
+            {editable ? (
+              <textarea
+                value={Description}
+                onChange={handleDescriptionChange}
+              />
+            ) : (
+              <p>{description}</p>
+            )}
+          </div>
+        </div>
+        <div className="tile-toggle">
+          <small>{createdAtLocal}</small>
+          {editable ? (
+            <button onClick={handleSaveButtonClick}>Save</button>
+          ) : (
+            <AiOutlineEdit onClick={handleEditButtonClick}>Edit</AiOutlineEdit>
+          )}
+
+          <Select
+            bordered={false}
+            placeholder="Select a category"
+            size="large"
+            className="form-select mb-3"
+            onChange={(value) => {
+              setTaskStatus(value);
+              console.log(value);
+              handleSaveButtonClick();
+            }}
+            value={taskStatus}
+          >
+            {arr?.map((item, index) => (
+              <Option key={index} value={item} disabled={editable}>
+                {item}
+              </Option>
+            ))}
+          </Select>
+        </div>
+      </Badge.Ribbon>
     </div>
   );
 };
