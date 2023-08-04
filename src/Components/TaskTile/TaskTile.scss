@@ -87,10 +87,6 @@
   border-top: 1px solid $medium-grey;
   align-items: center;
 
-  .delete-icon {
-    position: absolute;
-    right: 0rem;
-  }
 }
 
 .tile-toggle-popup {
@@ -99,3 +95,7 @@
   justify-content: space-evenly;
   height: 80px;
 }
+.delete-icon {
+    position: absolute;
+    right: 0rem;
+  }
