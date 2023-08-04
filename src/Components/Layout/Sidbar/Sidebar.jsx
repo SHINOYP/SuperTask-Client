@@ -6,7 +6,7 @@ import { BsGraphUp } from "react-icons/bs";
 import { BsFiles } from "react-icons/bs";
 import { FiGrid } from "react-icons/fi";
 import { CgMenuRound, CgClose } from "react-icons/cg";
-import "../LayoutStyle.sass";
+import "../LayoutStyle.scss";
 
 const Sidebars = () => {
   const [toggled, setToggled] = React.useState(false);
@@ -48,7 +48,7 @@ const Sidebars = () => {
           <MenuItem icon={<FiGrid />}>More Options</MenuItem>
         </Menu>
       </Sidebar>
-      <main style={{ padding: 10 }}>
+      
         <div>
           {broken &&
             (!toggled ? (
@@ -65,7 +65,7 @@ const Sidebars = () => {
               />
             ))}
         </div>
-      </main>
+      
     </div>
   );
 };

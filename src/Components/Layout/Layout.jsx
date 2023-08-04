@@ -1,12 +1,11 @@
-import React from 'react'
-import Sidebars from './Sidbar/Sidebar'
+import React from "react";
+import Sidebars from "./Sidbar/Sidebar";
 
-
-export const Layout = ({children}) => {
+export const Layout = ({ children }) => {
   return (
-    <div className='layout'>
-        <Sidebars/>
-        {children}
+    <div className="layout">
+      <Sidebars />
+      <div className="content">{children}</div>
     </div>
-  )
-}
+  );
+};

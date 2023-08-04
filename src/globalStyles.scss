@@ -1,4 +1,4 @@
-//colors
+// Define SCSS variables
 $blue-purple: #6F47EB;
 $pure-black: #000000;
 $pure-white: #FFFFFF;
@@ -9,6 +9,7 @@ $medium-grey: #EDEDED;
 $light-grey: #F9F9F9;
 $light-blue: #EEE9FD;
 
+// Apply styles using SCSS syntax
 #root {
   width: 100vw;
   height: 100vh;
@@ -62,5 +63,4 @@ body {
   margin-left: 1rem;
   justify-content: space-evenly;
   align-items: center;
-  /* Add your styles for .Sidebar-icon here */
 }

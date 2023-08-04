@@ -35,7 +35,6 @@ const TaskTile = ({
     });
   };
 
-
   const createdAtLocal = new Date(date).toLocaleString();
 
   const text = <span>Edit</span>;
@@ -116,7 +115,7 @@ const TaskTile = ({
         text={status}
         color={BadgeColor()}
         placement="start"
-        style={{left:'-25px',top:'-10px'}}
+        style={{ left: "-25px", top: "-10px" }}
       >
         {contextHolder}
 
@@ -129,7 +128,7 @@ const TaskTile = ({
           >
             <CiMenuKebab size={20} className="delete-icon" />
           </Popover>
-          <div >
+          <div>
             {editable ? (
               <input
                 type="text"
@@ -164,7 +163,6 @@ const TaskTile = ({
             className="form-select mb-3"
             onChange={(value) => {
               setTaskStatus(value);
-              console.log(value);
               handleSaveButtonClick();
             }}
             value={taskStatus}

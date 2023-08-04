@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Layout } from "../../Components/Layout/Layout";
 import { MdOutlineCreateNewFolder } from "react-icons/md";
 import { message  } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
 import TaskTile from "../../Components/TaskTile/TaskTile";
 import CreateTaskForm from "../../Components/CreateTaskForm/CreateTaskForm";
 import FadeLoader from "react-spinners/FadeLoader";
 import "./DashboardStyle.scss";
 
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const Dashboard = () => {
   const [open, setOpen] = useState(false);
@@ -16,6 +14,7 @@ const Dashboard = () => {
   const [changeTriggered, setChangeTriggered] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
   const [loading,setLoading]=useState(false)
+  
   const success = (message) => {
     messageApi.open({
       type: "success",
@@ -36,20 +35,19 @@ const Dashboard = () => {
   };
 
   const fetchAllTasks = async () => {
-    setLoading(true)
+    
     try {
       const response = await fetch(`https://${process.env.REACT_APP_HOST_URI}/api/Task/get-tasks`);
       const json = await response.json();
       if (response.ok) {
         setTasks(json);
-        setLoading(false)
+        setLoading(true)
       }else{
         errorMessage('something went wrong, Try again later')
-        setLoading(false)
+       
       }
     } catch (error) {
-      setLoading(false)
-      errorMessage('something went wrong, Try again later')
+     errorMessage('something went wrong, Try again later')
       console.log(error);
     }
   };
@@ -84,7 +82,7 @@ const Dashboard = () => {
   };
   return (
     <>
-      {!loading ? (
+      {loading ? (
         <Layout>
           <div className="dasboard-main">
             {contextHolder}
